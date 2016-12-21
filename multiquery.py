@@ -75,13 +75,17 @@ def run(conn, query, dbnames):
                 cursor.execute("use {0};".format(conn.escape_string(dbname)))
                 cursor.execute(query)
 
-                # If we haven't printed headers, print them now
-                if not headers_printed:
-                    print("\t".join(encode(d[0]) for d in cursor.description))
-                    headers_printed = True
+                # If the query returned results, print them
+                if cursor.description != None:
+                    # If we haven't printed headers, print them now
+                    if not headers_printed:
+                        print("\t".join(encode(d[0]) for d in cursor.description))
+                        headers_printed = True
 
-                for row in cursor:
-                    print("\t".join(encode(v) for v in row))
+                    for row in cursor:
+                        print("\t".join(encode(v) for v in row))
+                else:
+                    print("Rows affected: {}".format(cursor.rowcount))
 
             except KeyboardInterrupt as e:
                 sys.stderr.write("^C received.  Shutting down.\n")
