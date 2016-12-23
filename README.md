@@ -1,6 +1,6 @@
 # Multiquery
 
-Runs a single SQL query against a set of databases concatenates the results
+Runs a single SQL query against a set of databases and concatenates the results
 together.
 
     Usage:
