@@ -27,6 +27,7 @@ import sys
 import traceback
 
 import docopt
+import os.path
 import pymysql
 import pymysql.cursors
 
@@ -46,6 +47,11 @@ def main(argv=None):
         mysql_kwargs['read_default_file'] = args['--defaults-file']
 
     mysql_kwargs['autocommit'] = True # Close transactions after each query
+
+    # Cause pymysql to read ~/.my.cnf if it exists.
+    my_cnf_path = os.path.expanduser("~/.my.cnf")
+    if os.path.exists(my_cnf_path):
+        mysql_kwargs['read_default_file'] = my_cnf_path
 
     #mysql_kwargs['cursorclass'] = pymysql.cursors.DictCursor
 
